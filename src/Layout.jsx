@@ -12,7 +12,7 @@ const Layout = () => {
             <BrowserRouter>
                 <Navbar />
                 <Routes>
-                    <Route path="/detail" element={<Detail />} />
+                    <Route path="/character/:id/detail" element={<Detail />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/" element={<Home />} />
                 </Routes>

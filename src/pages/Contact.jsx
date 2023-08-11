@@ -1,6 +1,68 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import Chart from 'chart.js/auto';
 
 const Contact = () => {
+
+    const [data, setData] = useState({
+        labels: [
+            'Red',
+            'Blue',
+            'Yellow'
+        ],
+        datasets: [{
+            label: 'My First Dataset',
+            data: [300, 50, 100],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+    })
+
+
+    useEffect(() => {
+        let ctx1 = document.getElementById('myChart1');
+        let ctx2 = document.getElementById('myChart2');
+        let myChart1 = loadChart(ctx1);
+        let myChart2 = loadChart2(ctx2, data)
+        return () => {
+            myChart1.destroy();
+            myChart2.destroy();
+        }
+    }, [data])
+
+
+    const loadChart = (ctx) => {
+        return new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                datasets: [{
+                    label: '# of Votes',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+
+        })
+    }
+
+    const loadChart2 = (ctx, data) => {
+        return new Chart(ctx, {
+            type: 'doughnut',
+            data: data
+        })
+    }
+
     return (
         <>
             {/* Page content*/}
@@ -177,6 +239,16 @@ const Contact = () => {
                             <p className="text-muted mb-0">
                                 Call us during normal business hours at (555) 892-9403.
                             </p>
+                        </div>
+                    </div>
+                </div>
+                <div className="container px-5">
+                    <div className="row">
+                        <div className="col-md-6">
+                            <canvas id="myChart1"></canvas>
+                        </div>
+                        <div className="col-md-6">
+                            <canvas id="myChart2"></canvas>
                         </div>
                     </div>
                 </div>

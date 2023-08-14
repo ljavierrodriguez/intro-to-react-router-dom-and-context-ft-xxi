@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import Chart from 'chart.js/auto';
 import { AppUserContext } from '../context/UserContext';
 
-const Contact = () => {
+const Profile = () => {
 
     const { name } = useContext(AppUserContext);
 
@@ -261,4 +261,4 @@ const Contact = () => {
     )
 }
 
-export default Contact
+export default Profile

@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Card from '../components/Card'
 import Header from '../components/shared/Header'
+import { AppUserContext } from '../context/UserContext'
+import { CartContext } from '../context/ShoppingCartContext'
 const Home = () => {
+
+    const { name, setName } = useContext(AppUserContext)
+    const { setCart } = useContext(CartContext);
 
     const [urlAPI] = useState("https://rickandmortyapi.com")
     const [characters, setCharacters] = useState(null)
@@ -33,11 +38,11 @@ const Home = () => {
     }
 
     const cargarDatos = () => {
-        if(sessionStorage.getItem('miDato')){
+        if (sessionStorage.getItem('miDato')) {
             setMiDato(sessionStorage.getItem('miDato'))
         }
 
-        if(localStorage.getItem('miDato2')){
+        if (localStorage.getItem('miDato2')) {
             setMiDato2(localStorage.getItem('miDato2'))
         }
     }
@@ -55,6 +60,29 @@ const Home = () => {
             {/* Section*/}
             <section className="py-5">
                 <div className="container px-4 px-lg-5 mt-5">
+                    <div className="row">
+                        <div className="col-md-12">
+                            <h1 className="text-center text-primary">
+                                {name}
+                            </h1>
+                            <Home2 />
+                            <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-12">
+                            <button className="btn btn-primary" onClick={() => {
+                                setCart((cart) => {
+                                    return [...cart, { id: 2, productName: 'Audifonos Beat', price: 500, quantity: 1 }]
+                                })
+                            }}>Audifonos</button>
+                            <button className="btn btn-primary" onClick={() => {
+                                setCart((cart) => {
+                                    return [...cart, { id: 2, productName: 'Teclado Logitech D300', price: 350, quantity: 1 }]
+                                })
+                            }}>Teclado</button>
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-md-12 py-3">
                             <div className="input-group">
@@ -90,3 +118,26 @@ const Home = () => {
 }
 
 export default Home
+
+
+
+
+const Home2 = () => {
+    return (
+        <AppUserContext.Consumer>
+            {
+                ({name}) => {
+                    return (
+                        <>
+                            <div className='container'>
+                                <h1 className='text-center text-danger'>
+                                    {name}
+                                </h1>
+                            </div>
+                        </>
+                    )
+                }
+            }
+        </AppUserContext.Consumer>
+    )
+}

@@ -1,12 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { Link } from 'react-router-dom'
+import { CartContext } from '../../context/ShoppingCartContext'
+import { AppContext } from '../../context/AppContext';
 
 const Navbar = () => {
+
+    const { cart } = useContext(CartContext);
+    const { user, setUser } = useContext(AppContext);
+
     return (
         <>
-        {/* Navigation*/}
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+            {/* Navigation*/}
+            <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 <div className="container px-4 px-lg-5">
                     <Link className="navbar-brand" to="/">
                         Start Bootstrap
@@ -33,6 +39,27 @@ const Navbar = () => {
                                 <Link className="nav-link" to="/contact">
                                     Contact
                                 </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/profile">
+                                    Profile
+                                </Link>
+                            </li>
+
+                            <li className="nav-item">
+                                {
+                                    !!user ? (
+                                        <a className="nav-link" href='/#'>
+                                            {user.email}
+                                        </a>
+                                    ) : (
+                                        <button className='btn btn-success btn-sm my-1' onClick={() => {
+                                            setUser({ email: 'lrodriguez@gmail.com' })
+                                        }}>
+                                            Login
+                                        </button>
+                                    )
+                                }
                             </li>
                             {/* <li className="nav-item">
                                 <Link className="nav-link" to="/detail">
@@ -77,7 +104,7 @@ const Navbar = () => {
                                 <i className="bi-cart-fill me-1" />
                                 Cart
                                 <span className="badge bg-dark text-white ms-1 rounded-pill">
-                                    0
+                                    {cart.reduce((total, item) => total + item.quantity, 0)}
                                 </span>
                             </button>
                         </form>
